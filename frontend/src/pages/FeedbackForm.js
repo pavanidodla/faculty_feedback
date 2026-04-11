@@ -4,6 +4,7 @@ import StudentNavbar from '../components/StudentNavbar';
 import StarRating from '../components/StarRating';
 import { getSubjects, submitFeedback } from '../api';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 const QUESTIONS = [
   'How well does the faculty explain concepts?',
@@ -100,7 +101,9 @@ export default function FeedbackForm() {
         <div style={{ fontSize:'5rem', marginBottom:'1.5rem' }}>🎉</div>
         <h2 style={{ fontSize:'2rem', marginBottom:'0.75rem' }}>Feedback Submitted!</h2>
         <p style={{ color:'var(--text-muted)', marginBottom:'2rem' }}>Thank you for your valuable feedback.</p>
-        <a href="/dashboard" className="btn btn-primary">← Back to Dashboard</a>
+        <Link to="/dashboard" className="btn btn-primary">
+  ← Back to Dashboard
+</Link>
       </div>
     </>
   );
