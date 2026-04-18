@@ -53,6 +53,8 @@ exports.sendFeedbackConfirmationEmail = async ({ to, studentName, rollNo, year, 
     'Interactivity',
     'Doubt Clearing',
     'Punctuality',
+    'Teaching Speed',
+  'Satisfied teaching',
   ];
 
   const starBar = (rating) => {
