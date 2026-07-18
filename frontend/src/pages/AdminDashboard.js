@@ -239,6 +239,10 @@ function FacultyCard({ stat }) {
     })}
   </div>
 )}
+      </div>
+    </div>
+  );
+}
 
 /* ── Main Dashboard ── */
 export default function AdminDashboard() {
