@@ -148,24 +148,97 @@ function FacultyCard({ stat }) {
         </button>
 
         {open && (
-          <div style={{ marginTop:'0.875rem', display:'flex', flexDirection:'column', gap:'0.6rem' }}>
-            {stat.subjects.map((sub,si) => (
-              <div key={si} style={{ background:'#f9fafb', borderRadius:8, padding:'0.875rem 1rem', border:'1px solid var(--border)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'0.75rem' }}>
+  <div
+    style={{
+      marginTop: '0.875rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem',
+    }}
+  >
+    {YEARS.map((year) => {
+      const subjectsForYear = stat.subjects.filter((sub) => {
+        if (!sub.years) return false;
+
+        if (Array.isArray(sub.years)) {
+          return sub.years.includes(year);
+        }
+
+        return sub.years === year;
+      });
+
+      if (subjectsForYear.length === 0) return null;
+
+      return (
+        <div key={year}>
+          <div
+            style={{
+              fontSize: '1rem',
+              fontWeight: 700,
+              color: '#1a56db',
+              marginBottom: '0.75rem',
+              paddingBottom: '0.5rem',
+              borderBottom: '2px solid #e5e7eb',
+            }}
+          >
+            📘 {year} Subjects
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.6rem',
+            }}
+          >
+            {subjectsForYear.map((sub, si) => (
+              <div
+                key={si}
+                style={{
+                  background: '#f9fafb',
+                  borderRadius: 8,
+                  padding: '0.875rem 1rem',
+                  border: '1px solid var(--border)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem',
+                }}
+              >
                 <div>
-                  <div style={{ fontWeight:700, fontSize:'0.9rem' }}>{sub.subjectName}</div>
-                  <div style={{ fontSize:'0.75rem', color:'var(--text-muted)', marginTop:2 }}>
-                    {sub.branches.join(', ')} · {sub.years.join(', ')} · {sub.responses} response{sub.responses!==1?'s':''}
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    {sub.subjectName}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: '0.75rem',
+                      color: 'var(--text-muted)',
+                      marginTop: 2,
+                    }}
+                  >
+                    {sub.branches?.join(', ') || 'No Branch'}
+
+                    {' · '}
+
+                    {sub.responses} response
+                    {sub.responses !== 1 ? 's' : ''}
                   </div>
                 </div>
-              
               </div>
             ))}
           </div>
-        )}
-      </div>
-    </div>
-  );
-}
+        </div>
+      );
+    })}
+  </div>
+)}
 
 /* ── Main Dashboard ── */
 export default function AdminDashboard() {
