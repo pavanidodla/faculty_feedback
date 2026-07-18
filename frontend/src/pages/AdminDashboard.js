@@ -271,7 +271,10 @@ export default function AdminDashboard() {
     'Faculty ID',
     'Faculty Name',
     'Campuses',
-    'Subjects',
+    'E1 Subjects',
+  'E2 Subjects',
+  'E3 Subjects',
+  'E4 Subjects',
     'Total Responses',
     'Q1-Explanation',
     'Q2-Knowledge',
@@ -292,7 +295,25 @@ export default function AdminDashboard() {
       s.facultyId,
       hasName ? s.facultyName : '',
       s.campuses.join('; '),
-      s.subjects.map((sub) => sub.subjectName).join('; '),
+      s.subjects
+  .filter((sub) => sub.year === 'E1')
+  .map((sub) => sub.subjectName)
+  .join('; '),
+
+s.subjects
+  .filter((sub) => sub.year === 'E2')
+  .map((sub) => sub.subjectName)
+  .join('; '),
+
+s.subjects
+  .filter((sub) => sub.year === 'E3')
+  .map((sub) => sub.subjectName)
+  .join('; '),
+
+s.subjects
+  .filter((sub) => sub.year === 'E4')
+  .map((sub) => sub.subjectName)
+  .join('; '),
       s.totalResponses,
       ...s.avgRatings,
       s.overallAvg,
