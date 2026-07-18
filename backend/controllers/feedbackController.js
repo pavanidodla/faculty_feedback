@@ -145,32 +145,35 @@ exports.getFacultyStats = async (req, res) => {
       fb.entries.forEach(entry => {
         const key = entry.faculty;
 
-        if (!facultyMap[key]) {
-          facultyMap[key] = {
-            facultyId: key,
-            facultyName: facultyNameMap[key] || key, // ✅ FIX
-            subjectDetails: {},
-            campuses: new Set(),
-            totalResponses: 0,
-            totalRatings: Array(QUESTIONS.length).fill(0),
-            ratingCount: 0,
-            
-          };
-        }
+if (!facultyMap[key]) {
+    facultyMap[key] = {
+        facultyId: key,
+        facultyName: facultyNameMap[key] || key,
+        subjectDetails: {},
+        campuses: new Set(),
+        totalResponses: 0,
+        totalRatings: Array(QUESTIONS.length).fill(0),
+        ratingCount: 0,
+    };
+}
 
-        const fm = facultyMap[key];
+const fm = facultyMap[key];
 
-        if (!fm.subjectDetails[entry.subjectName]) {
-          fm.subjectDetails[entry.subjectName] = {
-            subjectName: entry.subjectName,
-            branches: new Set(),
-            years: new Set(),
-            responses: 0,
-            totalRatings: Array(QUESTIONS.length).fill(0),
-          };
-        }
+// ✅ Group by subject + year
+const subjectKey = `${entry.subjectName}_${fb.year}`;
 
-        const sd = fm.subjectDetails[entry.subjectName];
+if (!fm.subjectDetails[subjectKey]) {
+    fm.subjectDetails[subjectKey] = {
+        subjectName: entry.subjectName,
+        year: fb.year,
+        branches: new Set(),
+        years: new Set(),
+        responses: 0,
+        totalRatings: Array(QUESTIONS.length).fill(0),
+    };
+}
+
+const sd = fm.subjectDetails[subjectKey];
         sd.branches.add(fb.branch);
         sd.years.add(fb.year);
         sd.responses++;
@@ -202,6 +205,7 @@ exports.getFacultyStats = async (req, res) => {
 
       const subjects = Object.values(f.subjectDetails).map(sd => ({
         subjectName: sd.subjectName,
+        year: sd.year,
         branches: [...sd.branches],
         years: [...sd.years],
         responses: sd.responses,
